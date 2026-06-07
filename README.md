@@ -1,7 +1,7 @@
 # Project Name (TBD)
 
 ## Project Overview
-> To be determined. This section will be updated once the project scope has been finalized.
+> This project conducts an exploratory data analysis (EDA) on traffic data gathered by the MMDA for the MMARAS reports. The primary objective is to uncover underlying patterns, correlations, and trends to provide a clearer picture of Metro Manila's traffic and incident dynamics.
 
 ## Team Members
 Matthew Fuentes   
