@@ -1,10 +1,11 @@
-name: Run Sample Tests
+name: Run Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, dev ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, dev ]
+  workflow_dispatch:
 
 jobs:
   test:
@@ -17,10 +18,10 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: '3.13'
 
       - name: Install dependencies
-        run: pip install pytest
+        run: pip install -r requirements.txt
 
       - name: Run tests
-        run: python -m pytest tests/test_sample.py -v
+        run: python -m pytest src/tests/ -v

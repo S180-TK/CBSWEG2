@@ -11,9 +11,16 @@
 | Matthew Fuentes     | Full Stack Developer           | - Develops and maintains both frontend and backend components <br> - Reviews and merges pull requests on GitHub <br> - Follows team coding conventions and file naming standards <br> - Writes and updates technical documentation               |
 
 ## Directory Structure
+```
 project-repo/
 ├── .github/
 │   └── workflows/
 │       └── test.yml
+├── dataset/
 ├── src/
+│   ├── models/
+│   ├── notebooks/
+│   └── tests/
+├── requirements.txt
 └── README.md
+```
