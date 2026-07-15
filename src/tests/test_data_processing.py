@@ -1,14 +1,20 @@
 import pandas as pd
+import pytest
 
 from models.data_processing import (
     add_hour_bin,
     add_severity_num,
     clean_edsa_address,
     drop_missing_address,
+    extract_casualty_class,
     extract_hour,
     filter_columns,
     find_invalid_range_rows,
     normalize_address_column,
+    validate_collision_type_values,
+    validate_severity_values,
+    validate_x_bounds,
+    validate_y_bounds,
 )
 
 
@@ -73,3 +79,40 @@ def test_add_hour_bin_assigns_expected_labels():
     assert list(result["HOUR_BIN"]) == [
         "Night (0-6)", "Morning (6-12)", "Afternoon (12-18)", "Evening (18-24)",
     ]
+
+
+def test_extract_casualty_class_maps_known_severity_values():
+    assert extract_casualty_class("Property") == "Non_Casualty"
+    assert extract_casualty_class("Injury") == "Casualty"
+    assert extract_casualty_class("Fatal") == "Casualty"
+
+
+def test_extract_casualty_class_rejects_unknown_severity():
+    with pytest.raises(ValueError, match="Unknown severity label"):
+        extract_casualty_class("Unknown")
+
+
+def test_validate_x_bounds_returns_only_invalid_rows():
+    df = pd.DataFrame({"X": [120.96, 121.00, 121.08, 122.00, None]})
+    result = validate_x_bounds(df)
+    assert list(result.index) == [3, 4]
+
+
+def test_validate_y_bounds_returns_only_invalid_rows():
+    df = pd.DataFrame({"Y": [14.51, 14.60, 14.68, 15.00, None]})
+    result = validate_y_bounds(df)
+    assert list(result.index) == [3, 4]
+
+
+def test_validate_severity_values_returns_unknown_and_missing_rows():
+    df = pd.DataFrame({"SEVERITY": ["Property", "Injury", "Fatal", "Unknown", None]})
+    result = validate_severity_values(df)
+    assert list(result.index) == [3, 4]
+
+
+def test_validate_collision_type_values_returns_unknown_and_missing_rows():
+    df = pd.DataFrame({
+        "COLLISION_TYPE": ["Angle Impact", "Self-Accident", "Unexpected", None],
+    })
+    result = validate_collision_type_values(df)
+    assert list(result.index) == [2, 3]

@@ -11,6 +11,23 @@ HOUR_BIN_EDGES = [0, 6, 12, 18, 24]
 HOUR_BIN_LABELS = ["Night (0-6)", "Morning (6-12)", "Afternoon (12-18)", "Evening (18-24)"]
 
 SEVERITY_MAP = {"Property": 1, "Injury": 2, "Fatal": 3}
+CASUALTY_CLASS_MAP = {
+    "Property": "Non_Casualty",
+    "Injury": "Casualty",
+    "Fatal": "Casualty",
+}
+
+VALID_SEVERITY_VALUES = frozenset(SEVERITY_MAP)
+VALID_COLLISION_TYPE_VALUES = frozenset({
+    "Angle Impact",
+    "Head-On",
+    "Hit Object",
+    "Multiple",
+    "No Collision Stated",
+    "Rear-End",
+    "Self-Accident",
+    "Side Swipe",
+})
 
 
 def load_dataset(csv_path):
@@ -70,6 +87,35 @@ def extract_hour(df):
 
 def find_invalid_range_rows(df, column, min_value, max_value):
     return df[(df[column] < min_value) | (df[column] > max_value)]
+
+
+def validate_x_bounds(df):
+    """Return rows whose longitude is missing or outside the EDSA bounds."""
+    return df[df["X"].isna() | ~df["X"].between(X_MIN, X_MAX, inclusive="both")]
+
+
+def validate_y_bounds(df):
+    """Return rows whose latitude is missing or outside the EDSA bounds."""
+    return df[df["Y"].isna() | ~df["Y"].between(Y_MIN, Y_MAX, inclusive="both")]
+
+
+def validate_severity_values(df):
+    """Return rows containing a missing or unexpected severity label."""
+    return df[df["SEVERITY"].isna() | ~df["SEVERITY"].isin(VALID_SEVERITY_VALUES)]
+
+
+def validate_collision_type_values(df):
+    """Return rows containing a missing or unexpected collision-type label."""
+    column = df["COLLISION_TYPE"]
+    return df[column.isna() | ~column.isin(VALID_COLLISION_TYPE_VALUES)]
+
+
+def extract_casualty_class(severity):
+    """Convert a severity label to the binary casualty classification target."""
+    try:
+        return CASUALTY_CLASS_MAP[severity]
+    except (KeyError, TypeError) as error:
+        raise ValueError(f"Unknown severity label: {severity!r}") from error
 
 
 def add_severity_num(df):
