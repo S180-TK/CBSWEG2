@@ -11,11 +11,6 @@ HOUR_BIN_EDGES = [0, 6, 12, 18, 24]
 HOUR_BIN_LABELS = ["Night (0-6)", "Morning (6-12)", "Afternoon (12-18)", "Evening (18-24)"]
 
 SEVERITY_MAP = {"Property": 1, "Injury": 2, "Fatal": 3}
-CASUALTY_CLASS_MAP = {
-    "Property": "Non_Casualty",
-    "Injury": "Casualty",
-    "Fatal": "Casualty",
-}
 
 VALID_SEVERITY_VALUES = frozenset(SEVERITY_MAP)
 VALID_COLLISION_TYPE_VALUES = frozenset({
@@ -91,14 +86,6 @@ def find_invalid_range_rows(df, column, min_value, max_value):
 
 def validate_severity_values(df):
     return sorted(df["SEVERITY"].dropna().unique().tolist())
-
-
-def extract_casualty_class(severity):
-    if severity == "Property":
-        return "non_Casualty"
-    elif severity in ("Injury", "Fatal"):
-        return "Casualty"
-    return None
 
 
 def validate_x_bounds(df):

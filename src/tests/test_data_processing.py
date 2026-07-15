@@ -5,7 +5,6 @@ from models.data_processing import (
     add_severity_num,
     clean_edsa_address,
     drop_missing_address,
-    extract_casualty_class,
     extract_hour,
     filter_columns,
     find_invalid_range_rows,
@@ -94,29 +93,18 @@ def test_validate_severity_values_returns_known_categories():
 
 
 # EDSA-UT010
-def test_extract_casualty_class_property_maps_to_non_casualty():
-    assert extract_casualty_class("Property") == "Non_Casualty"
-
-
-# EDSA-UT011
-def test_extract_casualty_class_injury_and_fatal_map_to_casualty():
-    assert extract_casualty_class("Injury") == "Casualty"
-    assert extract_casualty_class("Fatal") == "Casualty"
-
-
-# EDSA-UT012
 def test_validate_x_bounds_flags_out_of_range_longitude():
     df = pd.DataFrame({"X": [121.0, 121.05, 120.90]})
     assert validate_x_bounds(df) == 1
 
 
-# EDSA-UT013
+# EDSA-UT011
 def test_validate_y_bounds_flags_out_of_range_latitude():
     df = pd.DataFrame({"Y": [14.6, 14.55, 14.70]})
     assert validate_y_bounds(df) == 1
 
 
-# EDSA-UT014
+# EDSA-UT012
 def test_validate_collision_type_values_flags_nulls_and_blanks():
     df = pd.DataFrame({"COLLISION_TYPE": ["Hit Object", "Sideswipe", None]})
     assert validate_collision_type_values(df) == 1
