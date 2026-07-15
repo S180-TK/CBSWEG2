@@ -95,7 +95,7 @@ def validate_severity_values(df):
 
 def extract_casualty_class(severity):
     if severity == "Property":
-        return "Non_Casualty"
+        return "non_Casualty"
     elif severity in ("Injury", "Fatal"):
         return "Casualty"
     return None
