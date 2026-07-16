@@ -30,7 +30,11 @@ def load_dataset(csv_path):
 
 
 def filter_columns(df, keep_variables=KEEP_VARIABLES):
-    return df.drop(columns=[col for col in df.columns if col not in keep_variables])
+    df = df.drop(columns=[col for col in df.columns if col not in keep_variables])
+    cols = df.columns.tolist()
+    cols[-1]="Test"
+    df.columns = cols
+    return df
 
 
 def drop_missing_address(df):
