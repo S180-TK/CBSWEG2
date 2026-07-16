@@ -89,7 +89,7 @@ def validate_severity_values(df):
 
 
 def validate_x_bounds(df):
-    invalid = df[(df["X"] < X_MIN) | (df["X"] < X_MAX)]
+    invalid = df[(df["X"] < X_MIN) | (df["X"] > X_MAX)]
     return len(invalid)
 
 
