@@ -30,11 +30,7 @@ def load_dataset(csv_path):
 
 
 def filter_columns(df, keep_variables=KEEP_VARIABLES):
-    df = df.drop(columns=[col for col in df.columns if col not in keep_variables])
-    cols = df.columns.tolist()
-    cols[-1]="Test"
-    df.columns = cols
-    return df
+    return df.drop(columns=[col for col in df.columns if col not in keep_variables])
 
 
 def drop_missing_address(df):
@@ -96,7 +92,7 @@ def validate_x_bounds(df):
     invalid = df[(df["X"] < X_MIN) | (df["X"] > X_MAX)]
     return len(invalid)
 
-#comment
+
 def validate_y_bounds(df):
     invalid = df[(df["Y"] < Y_MIN) | (df["Y"] > Y_MAX)]
     return len(invalid)
