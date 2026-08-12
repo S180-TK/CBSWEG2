@@ -19,8 +19,22 @@ project-repo/
 ├── dataset/
 ├── src/
 │   ├── models/
+│   │   ├── data_processing.py     # shared cleaning pipeline (DataPipeline)
+│   │   ├── eda.py                 # CBDATSI descriptive statistics
+│   │   ├── eda_plots.py           # CBDATSI EDA visualizations
+│   │   ├── clustering.py          # CBDATSI Phase 2 K-means pipeline
+│   │   ├── cluster_plots.py       # CBDATSI Phase 2 cluster visualizations
+│   │   ├── inference.py           # CBDATSI Phase 2 chi-square test
+│   │   ├── logistic_regression.py # CBADVAI multinomial logistic regression
+│   │   ├── mlp.py                 # CBADVAI multi-layer perceptron
+│   │   ├── training.py            # CBADVAI K-fold tuning and final training
+│   │   ├── evaluation.py          # CBADVAI classification metrics
+│   │   └── plotting.py            # CBADVAI model visualizations
 │   ├── notebooks/
+│   │   ├── CBADVAI_MCO_V13.ipynb  # CBADVAI classification models
+│   │   └── Phase_2-Final.ipynb    # CBDATSI Phases 1 and 2
 │   └── tests/
+├── conftest.py
 ├── requirements.txt
 └── README.md
 ```
