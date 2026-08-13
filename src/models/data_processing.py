@@ -114,7 +114,7 @@ class DataPipeline:
         unknown_label: str = UNKNOWN_COLLISION_TYPE,
     ) -> pd.DataFrame:
         """Remove records without a stated collision type."""
-        return df.loc[df["COLLISION_TYPE"].eq(unknown_label)].copy()
+        return df.loc[df["COLLISION_TYPE"].ne(unknown_label)].copy()
 
     def validate_categories(self, df: pd.DataFrame) -> None:
         """Raise an error when severity or known collision labels are unexpected."""
