@@ -1,7 +1,7 @@
 # Project Name: EDSA Traffic Model: Predictions, Insights, & Classifications
 
 ## Project Overview
-> This project conducts an exploratory data analysis (EDA) and develops a classification model on traffic data gathered by the MMDA around EDSA. The objective is to uncover underlying patterns, correlations, and trends to provide a clearer picture of EDSA's traffic and incident dynamics.
+> This project conducts an exploratory data analysis (EDA) and develops a classification model on traffic data gathered by the MMDA around EDSA. The objective is to uncover underlying patterns, correlations, and trends to provide a clearer picture of EDSA's historical traffic and incident dynamics.
 
 ## Team Members
 | Name                | Role                           | Responsibilities                                                                                                                                                                                                                                 |
