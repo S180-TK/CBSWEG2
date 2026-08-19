@@ -110,7 +110,7 @@ def fit_final_clusters(df, features, n_clusters, random_state=42):
         random_state=random_state,
     )
     clustered = df.copy()
-    clustered["CLUSTER"] = model.fit_predict(features) + 1
+    clustered["CLUSTER"] = model.fit_predict(features) + 2
     return clustered, model
 
 
