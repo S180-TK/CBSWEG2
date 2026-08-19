@@ -7,6 +7,10 @@ on:
     branches: [ main, dev ]
   workflow_dispatch:
 
+# Required so the release job can create tags and releases.
+permissions:
+  contents: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -25,3 +29,41 @@ jobs:
 
       - name: Run tests
         run: python -m pytest src/tests/ -v
+
+  release:
+    needs: test
+    runs-on: ubuntu-latest
+    # Runs on every push once the tests pass. Skipped for pull_request events so
+    # a branch and its open PR do not both publish the same release.
+    if: github.event_name != 'pull_request'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Package notebooks and tested source
+        run: |
+          zip -r release-v${{ github.run_number }}.zip \
+            src/notebooks/ \
+            src/models/ \
+            src/tests/ \
+            dataset/RTA_EDSA_2007-2016.csv \
+            requirements.txt \
+            conftest.py \
+            pytest.ini \
+            -x "*__pycache__*"
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v3
+        with:
+          files: release-v${{ github.run_number }}.zip
+          tag_name: v${{ github.run_number }}
+          name: CBSWEG2 v${{ github.run_number }}
+          body: |
+            Automated release created by GitHub Actions after all tests passed.
+
+            Contents:
+            - `src/notebooks/` - CBADVAI and CBDATSI Phase 2 notebooks
+            - `src/models/` - the modules the notebooks import and the tests cover
+            - `src/tests/` - unit tests and end-to-end system tests
+            - `dataset/RTA_EDSA_2007-2016.csv` - dataset used by both notebooks
